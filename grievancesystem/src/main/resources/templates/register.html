@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - College Grievance System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+        .register-card {
+            max-width: 500px;
+            margin: auto;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card register-card">
+            <div class="card-header bg-primary text-white text-center">
+                <h3 class="mb-0">🎓 User Registration</h3>
+            </div>
+            <div class="card-body p-4">
+                <form action="/register" method="post">
+                    <!-- Full Name -->
+                    <div class="mb-3">
+                        <label for="fullName" class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="fullName" name="fullName" 
+                               placeholder="Enter your full name" required>
+                    </div>
+                    
+                    <!-- Email -->
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Student Email</label>
+                        <input type="email" class="form-control" id="email" name="email" 
+                               placeholder="example@gmail.com" required>
+                    </div>
+                    
+                    <!-- Password -->
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" 
+                               placeholder="Create a password" required>
+                    </div>
+                    
+                    <!-- Role Selection -->
+                    <div class="mb-3">
+                        <label for="role" class="form-label">Register As</label>
+                        <select class="form-select" id="role" name="role" required>
+                            <option value="STUDENT">Student</option>
+                            <option value="STAFF">Staff Member</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="bi bi-person-plus"></i> Register Now
+                        </button>
+                        <a href="/" class="btn btn-outline-secondary">
+                            ← Back to Home
+                        </a>
+                    </div>
+                </form>
+                
+                <!-- Demo Info -->
+                <div class="mt-4 text-center">
+                    <small class="text-muted">
+                        Demo: Try with any email/password. We'll add validation later.
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

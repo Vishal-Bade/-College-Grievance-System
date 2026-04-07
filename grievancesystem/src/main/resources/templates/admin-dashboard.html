@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: #f5f5f5; }
+        .navbar { background: linear-gradient(135deg, #dc3545, #c82333); }
+        .stat-card { 
+            color: white; 
+            padding: 20px; 
+            border-radius: 10px; 
+            margin-bottom: 20px;
+        }
+        .sidebar { background: white; border-radius: 10px; padding: 20px; }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-dark navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                🛡️ Admin Dashboard
+            </a>
+            <div class="navbar-nav ms-auto">
+                <span class="nav-link">Welcome, Admin</span>
+                <a class="nav-link" href="/logout">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- Welcome Banner -->
+        <div class="alert alert-danger">
+            <h4>🛡️ Welcome, Administrator!</h4>
+            <p class="mb-0">Manage the entire grievance system here.</p>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="stat-card" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                    <h2 th:text="${totalGrievances} ?: 0">0</h2>
+                    <p class="mb-0">Total Grievances</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card" style="background: linear-gradient(135deg, #ffc107, #fd7e14);">
+                    <h2 th:text="${pendingGrievances} ?: 0">0</h2>
+                    <p class="mb-0">Pending</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card" style="background: linear-gradient(135deg, #17a2b8, #20c997);">
+                    <h2 th:text="${inProgressGrievances} ?: 0">0</h2>
+                    <p class="mb-0">In Progress</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card" style="background: linear-gradient(135deg, #28a745, #20c997);">
+                    <h2 th:text="${resolvedGrievances} ?: 0">0</h2>
+                    <p class="mb-0">Resolved</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Left Column: Main Content -->
+            <div class="col-md-8">
+                <!-- Pending Grievances for Assignment -->
+                <div class="card mb-4">
+                    <div class="card-header bg-danger text-white">
+                        <h5 class="mb-0">⏳ Pending Grievances (Need Assignment)</h5>
+                    </div>
+                    <div class="card-body">
+                        <div th:if="${pendingGrievances == 0}" class="text-center py-4">
+                            <p>No pending grievances. Great job! 🎉</p>
+                        </div>
+                        
+                        <div th:each="g : ${allGrievances}" th:if="${g.status == 'PENDING'}" class="mb-3 p-3 border rounded">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h6 th:text="${g.title}">Title</h6>
+                                    <p class="small text-muted" th:text="${g.description}">Description</p>
+                                    <div>
+                                        <span class="badge bg-secondary" th:text="${g.category}">Category</span>
+                                        <span class="badge ms-2" 
+                                              th:classappend="${g.priority == 'HIGH' ? 'bg-warning' : 'bg-info'}"
+                                              th:text="${g.priority}">Priority</span>
+                                    </div>
+                                    <small class="text-muted">Submitted by: <span th:text="${g.user.email}"></span></small>
+                                </div>
+                                <div class="col-md-4 text-end">
+                                    <form th:action="@{/grievance/assign}" method="post" class="mb-2">
+                                        <input type="hidden" name="grievanceId" th:value="${g.id}">
+                                        <div class="input-group">
+                                            <select name="assignedTo" class="form-select">
+                                                <option value="0">Select Staff Member</option>
+                                                <option th:each="staff : ${userList}" 
+                                                        th:if="${staff.role == 'STAFF'}"
+                                                        th:value="${staff.id}"
+                                                        th:text="${staff.fullName} + ' (' + ${staff.email} + ')'">
+                                                </option>
+                                            </select>
+                                            <button type="submit" class="btn btn-danger">Assign</button>
+                                        </div>
+                                    </form>
+                                    <a th:href="@{/grievance/{id}(id=${g.id})}" class="btn btn-sm btn-outline-danger">View</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- All Grievances Table -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">📋 All Grievances</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Title</th>
+                                        <th>Category</th>
+                                        <th>Priority</th>
+                                        <th>Status</th>
+                                        <th>Submitted By</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="g : ${allGrievances}">
+                                        <td th:text="${g.id}">#1</td>
+                                        <td th:text="${g.title}">Title</td>
+                                        <td>
+                                            <span class="badge bg-secondary" th:text="${g.category}"></span>
+                                        </td>
+                                        <td>
+                                            <span class="badge" 
+                                                  th:classappend="${g.priority == 'URGENT' ? 'bg-danger' : (g.priority == 'HIGH' ? 'bg-warning' : (g.priority == 'MEDIUM' ? 'bg-info' : 'bg-success'))}"
+                                                  th:text="${g.priority}">
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge" 
+                                                  th:classappend="${g.status == 'PENDING' ? 'bg-warning' : (g.status == 'IN_PROGRESS' ? 'bg-info' : 'bg-success')}"
+                                                  th:text="${g.status}">
+                                            </span>
+                                        </td>
+                                        <td th:text="${g.user.email}">user@college.edu</td>
+                                        <td>
+                                            <a th:href="@{/grievance/{id}(id=${g.id})}" class="btn btn-sm btn-outline-danger">View</a>
+                                        </td>
+                                    </tr>
+                                    <tr th:if="${#lists.isEmpty(allGrievances)}">
+                                        <td colspan="7" class="text-center text-muted py-4">
+                                            No grievances in the system.
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Sidebar -->
+            <div class="col-md-4">
+                <!-- System Users -->
+                <div class="card mb-4">
+                    <div class="card-header bg-dark text-white">
+                        <h5 class="mb-0">👥 System Users</h5>
+                    </div>
+                    <div class="card-body">
+                        <div th:each="user : ${userList}" class="mb-2 p-2 border-bottom">
+                            <span th:text="${user.fullName}" class="fw-bold"></span>
+                            <span class="badge ms-2" 
+                                  th:classappend="${user.role == 'ADMIN' ? 'bg-danger' : (user.role == 'STAFF' ? 'bg-warning' : 'bg-success')}"
+                                  th:text="${user.role}">
+                            </span>
+                        </div>
+                        <button class="btn btn-outline-dark btn-sm w-100 mt-2">
+                            + Add New User
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quick Admin Actions -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">⚡ Quick Actions</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-grid gap-2">
+                            <a href="/grievance/all" class="btn btn-danger">
+                                📊 View All Grievances
+                            </a>
+                            <button class="btn btn-outline-danger">
+                                📄 Generate Reports
+                            </button>
+                            <button class="btn btn-outline-danger">
+                                ⚙️ System Settings
+                            </button>
+                            <button class="btn btn-outline-danger">
+                                📈 View Analytics
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- System Status -->
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h6>System Status</h6>
+                        <div class="mb-2">
+                            <span class="badge bg-success">🟢 Operational</span>
+                        </div>
+                        <small class="text-muted">Last updated: Just now</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-3 mt-5">
+        <div class="container text-center">
+            <small>© 2024 College Grievance System - Admin Portal</small>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

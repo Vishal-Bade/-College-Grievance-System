@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Submit Grievance</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #f8f9fa;
+      }
+      .grievance-form-card {
+        max-width: 800px;
+        margin: 30px auto;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        border: none;
+      }
+      .form-header {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        padding: 25px;
+        border-radius: 15px 15px 0 0;
+      }
+      .category-btn {
+        padding: 12px;
+        margin: 5px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+      .category-btn:hover {
+        transform: scale(1.05);
+      }
+      .category-btn.active {
+        background: #667eea !important;
+        color: white !important;
+        border-color: #667eea !important;
+      }
+      .priority-option {
+        padding: 10px;
+        border: 2px solid #dee2e6;
+        border-radius: 8px;
+        margin: 5px;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-align: center;
+      }
+      .priority-option:hover {
+        background-color: #f8f9fa;
+      }
+      .priority-option.active {
+        border-color: #667eea;
+        background-color: rgba(102, 126, 234, 0.1);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav
+      class="navbar navbar-expand-lg navbar-dark"
+      style="background: linear-gradient(135deg, #667eea, #764ba2)"
+    >
+      <div class="container">
+        <a class="navbar-brand" href="/dashboard">
+          <i class="bi bi-building me-2"></i>College Grievance System
+        </a>
+        <div class="navbar-nav ms-auto">
+          <a class="nav-link" href="/dashboard">
+            <i class="bi bi-speedometer2 me-1"></i> Dashboard
+          </a>
+          <a class="nav-link" href="/logout">
+            <i class="bi bi-box-arrow-right me-1"></i> Logout
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="card grievance-form-card">
+        <div class="form-header text-center">
+          <h2><i class="bi bi-pencil-square me-2"></i>Submit New Grievance</h2>
+          <p class="mb-0">
+            Report an issue or concern to college administration
+          </p>
+        </div>
+
+        <div class="card-body p-4 p-md-5">
+          <!-- Change form action to this SIMPLE version -->
+          <form action="/grievance/submit" method="post">
+            <!-- Title -->
+            <div class="mb-3">
+              <label class="form-label">Title *</label>
+              <input
+                type="text"
+                name="title"
+                class="form-control"
+                required
+                placeholder="Enter grievance title"
+              />
+            </div>
+
+            <!-- Category -->
+            <div class="mb-3">
+              <label class="form-label">Category *</label>
+              <select name="category" class="form-control" required>
+                <option value="">Select Category</option>
+                <option value="ACADEMIC">Academic</option>
+                <option value="INFRASTRUCTURE">Infrastructure</option>
+                <option value="HOSTEL">Hostel</option>
+                <option value="OTHER">Other</option>
+              </select>
+            </div>
+
+            <!-- Priority -->
+            <div class="mb-3">
+              <label class="form-label">Priority *</label>
+              <select name="priority" class="form-control" required>
+                <option value="">Select Priority</option>
+                <option value="LOW">Low</option>
+                <option value="MEDIUM" selected>Medium</option>
+                <option value="HIGH">High</option>
+                <option value="URGENT">Urgent</option>
+              </select>
+            </div>
+
+            <!-- Description -->
+            <div class="mb-3">
+              <label class="form-label">Description *</label>
+              <textarea
+                name="description"
+                class="form-control"
+                rows="5"
+                placeholder="Describe your grievance in detail..."
+                required
+              ></textarea>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <a href="/dashboard" class="btn btn-secondary">Cancel</a>
+              <button type="submit" class="btn btn-primary">
+                Submit Grievance
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      // FIXED JavaScript - No more errors!
+
+      // Category selection - SIMPLE version
+      document.querySelectorAll(".category-btn").forEach((button) => {
+        button.addEventListener("click", function () {
+          // Remove active class from all category buttons
+          document.querySelectorAll(".category-btn").forEach((btn) => {
+            btn.classList.remove("btn-primary", "active");
+            btn.classList.add("btn-outline-primary");
+          });
+
+          // Add active class to clicked button
+          this.classList.remove("btn-outline-primary");
+          this.classList.add("btn-primary", "active");
+
+          // Update hidden input
+          document.getElementById("category").value =
+            this.getAttribute("data-category");
+        });
+      });
+
+      // Priority selection - SIMPLE version
+      document.querySelectorAll(".priority-option").forEach((option) => {
+        option.addEventListener("click", function () {
+          // Remove active class from all priority options
+          document.querySelectorAll(".priority-option").forEach((opt) => {
+            opt.classList.remove("active");
+          });
+
+          // Add active class to clicked option
+          this.classList.add("active");
+
+          // Update hidden input
+          document.getElementById("priority").value =
+            this.getAttribute("data-priority");
+        });
+      });
+
+      // Initialize with defaults
+      document.addEventListener("DOMContentLoaded", function () {
+        // Set first category button as active
+        const firstCategoryBtn = document.querySelector(".category-btn");
+        if (firstCategoryBtn) {
+          firstCategoryBtn.classList.remove("btn-outline-primary");
+          firstCategoryBtn.classList.add("btn-primary", "active");
+          document.getElementById("category").value =
+            firstCategoryBtn.getAttribute("data-category");
+        }
+
+        // Set medium priority as active (already set in HTML)
+        document.getElementById("priority").value = "MEDIUM";
+      });
+    </script>
+  </body>
+</html>

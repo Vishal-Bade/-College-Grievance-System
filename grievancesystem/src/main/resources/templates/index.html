@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Grievance Portal</title>
+    <!-- Fixed Bootstrap CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .welcome-card {
+            margin-top: 50px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border: none;
+        }
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+        .btn-lg {
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 col-xl-8">
+                <div class="card welcome-card">
+                    <div class="card-body text-center p-4 p-md-5">
+                        <!-- Title -->
+                        <div class="mb-4">
+                            <h1 class="display-5 fw-bold text-primary mb-3">
+                                <i class="bi bi-building"></i> College Grievance System
+                            </h1>
+                            <p class="lead text-muted mb-0">
+                                Your voice matters. Report issues, track resolutions, make campus better.
+                            </p>
+                        </div>
+                        
+                        <!-- Quick Stats -->
+                        <div class="row g-4 mb-5">
+                            <div class="col-md-4">
+                                <div class="p-4 rounded-3 bg-light">
+                                    <div class="feature-icon">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </div>
+                                    <h5 class="fw-bold">Submit Grievance</h5>
+                                    <p class="text-muted small">Easy online submission form</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-4 rounded-3 bg-light">
+                                    <div class="feature-icon">
+                                        <i class="bi bi-graph-up"></i>
+                                    </div>
+                                    <h5 class="fw-bold">Track Status</h5>
+                                    <p class="text-muted small">Real-time progress updates</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-4 rounded-3 bg-light">
+                                    <div class="feature-icon">
+                                        <i class="bi bi-shield-lock"></i>
+                                    </div>
+                                    <h5 class="fw-bold">Secure</h5>
+                                    <p class="text-muted small">Your data is protected</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <div class="d-grid gap-3 d-md-flex justify-content-center">
+                            <a href="/login" class="btn btn-primary btn-lg px-5">
+                                <i class="bi bi-box-arrow-in-right me-2"></i> Login
+                            </a>
+                            <a href="/register" class="btn btn-success btn-lg px-5">
+                                <i class="bi bi-person-plus me-2"></i> Register
+                            </a>
+                        </div>
+                        
+                        <!-- Test Credentials -->
+                        <div class="mt-5 p-3 bg-info bg-opacity-10 rounded-3">
+                            <h6 class="fw-bold"><i class="bi bi-key me-2"></i>Test Credentials:</h6>
+                            <div class="row text-start mt-2">
+                                <div class="col-md-4">
+                                    <p class="mb-1"><strong>Admin:</strong></p>
+                                    <p class="mb-0 small">Email: admin@college.edu<br>Password: admin123</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <p class="mb-1"><strong>Student:</strong></p>
+                                    <p class="mb-0 small">Email: student@college.edu<br>Password: student123</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <p class="mb-1"><strong>Staff:</strong></p>
+                                    <p class="mb-0 small">Email: staff@college.edu<br>Password: staff123</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fixed Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Grievances</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: #f8f9fa; }
+        .grievance-card { margin-bottom: 15px; }
+        .badge { font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/dashboard">📋 My Grievances</a>
+            <div>
+                <a href="/grievance/new" class="btn btn-success btn-sm">+ New</a>
+                <a href="/dashboard" class="btn btn-light btn-sm ms-2">Dashboard</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- Error Message -->
+        <div th:if="${error}" class="alert alert-danger">
+            <span th:text="${error}"></span>
+        </div>
+        
+        <!-- Grievances List -->
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">My Submitted Grievances</h5>
+            </div>
+            <div class="card-body">
+                <div th:if="${#lists.isEmpty(grievances)}" class="text-center py-4">
+                    <h5 class="text-muted">No grievances submitted yet</h5>
+                    <p class="text-muted">Submit your first grievance to get started</p>
+                    <a href="/grievance/new" class="btn btn-primary">Submit First Grievance</a>
+                </div>
+                
+                <div th:each="g : ${grievances}" class="card grievance-card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h5 th:text="${g.title}" class="card-title"></h5>
+                                <p class="card-text text-muted" th:text="${g.description}"></p>
+                                <div>
+                                    <span class="badge bg-secondary" th:text="${g.category}"></span>
+                                    <span class="badge ms-2" 
+                                          th:classappend="${g.priority == 'URGENT' ? 'bg-danger' : (g.priority == 'HIGH' ? 'bg-warning' : (g.priority == 'MEDIUM' ? 'bg-info' : 'bg-success'))}"
+                                          th:text="${g.priority}">
+                                    </span>
+                                </div>
+                                <small class="text-muted">
+                                    Submitted on: <span th:text="${#temporals.format(g.createdAt, 'dd MMM yyyy')}"></span>
+                                </small>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <span class="badge" 
+                                      th:classappend="${g.status == 'PENDING' ? 'bg-warning' : (g.status == 'IN_PROGRESS' ? 'bg-info' : 'bg-success')}"
+                                      th:text="${g.status}">
+                                </span>
+                                <div class="mt-2">
+                                    <a th:href="@{/grievance/{id}(id=${g.id})}" 
+                                       class="btn btn-outline-primary btn-sm">View Details</a>
+                                </div>
+                                <div th:if="${g.assignedTo}" class="mt-2">
+                                    <small>Assigned to: <span th:text="${g.assignedTo}"></span></small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="/dashboard" class="btn btn-secondary">← Back to Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>

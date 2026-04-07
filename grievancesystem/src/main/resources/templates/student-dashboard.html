@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: #f8f9fa; }
+        .navbar { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .stat-card { 
+            background: white; 
+            border-radius: 10px; 
+            padding: 20px; 
+            margin: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-dark navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                🎓 Student Dashboard
+            </a>
+            <div class="navbar-nav ms-auto">
+                <span class="nav-link">Welcome, <span th:text="${email}">Student</span></span>
+                <a class="nav-link" href="/logout">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-primary">
+                    <h4>👋 Welcome, Student!</h4>
+                    <p>Submit and track your grievances here.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="stat-card text-center">
+                    <h3 th:text="${totalCount}" class="text-primary">0</h3>
+                    <p>Total Grievances</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card text-center">
+                    <h3 th:text="${pendingCount}" class="text-warning">0</h3>
+                    <p>Pending</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card text-center">
+                    <h3 th:text="${resolvedCount}" class="text-success">0</h3>
+                    <p>Resolved</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h5>📝 Submit New Grievance</h5>
+                        <p>Report a new issue or concern</p>
+                        <a href="/grievance/new" class="btn btn-primary">Submit</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h5>📋 View My Grievances</h5>
+                        <p>Check status of all submissions</p>
+                        <a href="/grievance/my" class="btn btn-info">View All</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Grievances -->
+        <div class="card">
+            <div class="card-header">
+                <h5>Recent Grievances</h5>
+            </div>
+            <div class="card-body">
+                <div th:if="${#lists.isEmpty(grievances)}" class="text-center py-4">
+                    <p>No grievances submitted yet.</p>
+                    <a href="/grievance/new" class="btn btn-primary">Submit Your First Grievance</a>
+                </div>
+                
+                <div th:each="g : ${grievances}" class="mb-3 p-3 border rounded">
+                    <h6 th:text="${g.title}">Title</h6>
+                    <p class="small text-muted" th:text="${g.description}">Description</p>
+                    <div>
+                        <span class="badge bg-secondary" th:text="${g.category}">Category</span>
+                        <span class="badge ms-2" 
+                              th:classappend="${g.status == 'PENDING' ? 'bg-warning' : (g.status == 'IN_PROGRESS' ? 'bg-info' : 'bg-success')}"
+                              th:text="${g.status}">Status</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
