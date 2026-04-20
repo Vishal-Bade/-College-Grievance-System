@@ -41,8 +41,16 @@
                 </div>
                 
                 <div th:each="g : ${assignedGrievances}" class="mb-3 p-3 border rounded">
-                    <h6 th:text="${g.title}">Title</h6>
-                    <p class="small text-muted" th:text="${g.description}">Description</p>
+                    <div th:if="${g.resolutionDays != null}" class="alert alert-danger p-2 mb-2 small fw-bold">
+                        🚨 Notice: This issue must be resolved within <span th:text="${g.resolutionDays}"></span> days!
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h6 class="mb-0" th:text="${g.title}">Title</h6>
+                        <small class="text-muted">
+                            Complaint Date: <span th:text="${g.incidentDate != null ? #temporals.format(g.incidentDate, 'dd/MM/yyyy') : 'N/A'}"></span>
+                        </small>
+                    </div>
+                    <p class="small text-muted mt-2" th:text="${g.description}">Description</p>
                     <div class="d-flex justify-content-between">
                         <div>
                             <span class="badge bg-secondary" th:text="${g.category}">Category</span>
@@ -75,8 +83,13 @@
                 </div>
                 
                 <div th:each="g : ${pendingGrievances}" class="mb-3 p-3 border rounded">
-                    <h6 th:text="${g.title}">Title</h6>
-                    <p class="small text-muted" th:text="${g.description}">Description</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h6 class="mb-0" th:text="${g.title}">Title</h6>
+                        <small class="text-muted">
+                            Complaint Date: <span th:text="${g.incidentDate != null ? #temporals.format(g.incidentDate, 'dd/MM/yyyy') : 'N/A'}"></span>
+                        </small>
+                    </div>
+                    <p class="small text-muted mt-2" th:text="${g.description}">Description</p>
                     <div>
                         <span class="badge bg-secondary" th:text="${g.category}">Category</span>
                         <span class="badge ms-2 bg-warning">Pending</span>

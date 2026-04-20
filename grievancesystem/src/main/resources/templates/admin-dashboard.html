@@ -83,6 +83,9 @@
                             <div class="row">
                                 <div class="col-md-8">
                                     <h6 th:text="${g.title}">Title</h6>
+                                    <p class="small text-muted mb-1">
+                                        Complaint Date: <span th:text="${g.incidentDate != null ? #temporals.format(g.incidentDate, 'dd/MM/yyyy') : 'N/A'}"></span>
+                                    </p>
                                     <p class="small text-muted" th:text="${g.description}">Description</p>
                                     <div>
                                         <span class="badge bg-secondary" th:text="${g.category}">Category</span>
@@ -95,7 +98,7 @@
                                 <div class="col-md-4 text-end">
                                     <form th:action="@{/grievance/assign}" method="post" class="mb-2">
                                         <input type="hidden" name="grievanceId" th:value="${g.id}">
-                                        <div class="input-group">
+                                        <div class="input-group mb-2">
                                             <select name="assignedTo" class="form-select">
                                                 <option value="0">Select Staff Member</option>
                                                 <option th:each="staff : ${userList}" 
@@ -104,6 +107,9 @@
                                                         th:text="${staff.fullName} + ' (' + ${staff.email} + ')'">
                                                 </option>
                                             </select>
+                                        </div>
+                                        <div class="input-group">
+                                            <input type="number" name="resolutionDays" class="form-control" placeholder="Days to resolve" required min="1" value="7">
                                             <button type="submit" class="btn btn-danger">Assign</button>
                                         </div>
                                     </form>
@@ -130,6 +136,7 @@
                                         <th>Priority</th>
                                         <th>Status</th>
                                         <th>Submitted By</th>
+                                        <th>Complaint Date</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -153,6 +160,7 @@
                                             </span>
                                         </td>
                                         <td th:text="${g.user.email}">user@college.edu</td>
+                                        <td th:text="${g.incidentDate != null ? #temporals.format(g.incidentDate, 'dd/MM/yyyy') : 'N/A'}">N/A</td>
                                         <td>
                                             <a th:href="@{/grievance/{id}(id=${g.id})}" class="btn btn-sm btn-outline-danger">View</a>
                                         </td>

@@ -218,6 +218,7 @@ public class HomeController {
                                   @RequestParam("description") String description,
                                   @RequestParam("category") String category,
                                   @RequestParam("priority") String priority,
+                                  @RequestParam("incidentDate") java.time.LocalDate incidentDate,
                                   HttpSession session,
                                   Model model) {
         if (!isAuthenticated(session)) return "redirect:/login";
@@ -231,6 +232,7 @@ public class HomeController {
             grievance.setDescription(description);
             grievance.setCategory(category);
             grievance.setPriority(priority);
+            grievance.setIncidentDate(incidentDate);
             grievance.setUser(user);
             grievance.setStatus("PENDING");
             // IDs are auto-generated
@@ -323,6 +325,7 @@ public class HomeController {
     @PostMapping("/grievance/assign")
     public String assignGrievance(@RequestParam("grievanceId") Long grievanceId,
                                   @RequestParam(value = "assignedTo", defaultValue = "0") Long assignedTo,
+                                  @RequestParam(value = "resolutionDays", defaultValue = "7") Integer resolutionDays,
                                   HttpSession session) {
         
         if (!hasRole(session, "ADMIN")) return "redirect:/dashboard";
@@ -333,6 +336,7 @@ public class HomeController {
         
         if (g != null && assignedTo > 0) {
             g.setAssignedTo(assignedTo);
+            g.setResolutionDays(resolutionDays);
             if ("PENDING".equals(g.getStatus())) {
                 g.setStatus("IN_PROGRESS");
             }

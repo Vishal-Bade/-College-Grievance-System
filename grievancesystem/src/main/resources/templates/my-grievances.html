@@ -54,7 +54,8 @@
                                     </span>
                                 </div>
                                 <small class="text-muted">
-                                    Submitted on: <span th:text="${#temporals.format(g.createdAt, 'dd MMM yyyy')}"></span>
+                                    Submitted: <span th:text="${#temporals.format(g.createdAt, 'dd MMM yyyy')}"></span> |
+                                    Complaint Date: <span th:text="${g.incidentDate != null ? #temporals.format(g.incidentDate, 'dd MMM yyyy') : 'N/A'}"></span>
                                 </small>
                             </div>
                             <div class="col-md-4 text-end">

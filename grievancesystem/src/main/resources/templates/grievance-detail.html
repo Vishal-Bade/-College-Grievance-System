@@ -46,7 +46,11 @@
                         </p>
                         <p><strong>Submitted By:</strong> <span th:text="${grievance.user.email}"></span></p>
                         <p><strong>Submitted On:</strong> <span th:text="${#temporals.format(grievance.createdAt, 'dd MMM yyyy HH:mm')}"></span></p>
+                        <p><strong>Complaint Date:</strong> <span th:text="${grievance.incidentDate != null ? #temporals.format(grievance.incidentDate, 'dd MMM yyyy') : 'N/A'}"></span></p>
                         <p th:if="${grievance.assignedTo}"><strong>Assigned To:</strong> <span th:text="${grievance.assignedTo}"></span></p>
+                        <p th:if="${grievance.resolutionDays != null}" class="text-danger fw-bold">
+                            <strong>Resolution Deadline:</strong> Within <span th:text="${grievance.resolutionDays}"></span> Days
+                        </p>
                     </div>
                 </div>
                 

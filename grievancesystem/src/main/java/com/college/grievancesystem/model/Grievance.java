@@ -46,6 +46,12 @@ public class Grievance {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
     
+    @Column(name = "incident_date")
+    private java.time.LocalDate incidentDate;
+    
+    @Column(name = "resolution_days")
+    private Integer resolutionDays;
+    
     // Constructors
     public Grievance() {
         this.createdAt = LocalDateTime.now();
@@ -145,6 +151,22 @@ public class Grievance {
     
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+    
+    public java.time.LocalDate getIncidentDate() {
+        return incidentDate;
+    }
+    
+    public void setIncidentDate(java.time.LocalDate incidentDate) {
+        this.incidentDate = incidentDate;
+    }
+    
+    public Integer getResolutionDays() {
+        return resolutionDays;
+    }
+    
+    public void setResolutionDays(Integer resolutionDays) {
+        this.resolutionDays = resolutionDays;
     }
     
     // Helper methods for UI
